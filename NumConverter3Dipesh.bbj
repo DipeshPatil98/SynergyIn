@@ -1,0 +1,352 @@
+declare BBjAPI api!
+declare BBjSysGui sysgui!
+declare BBjTopLevelWindow wnd!
+declare BBjButton btn!
+
+api! = BBjAPI()
+
+sysgui! = api!.openSysGui("X0")
+
+myWindow! = sysgui!.addWindow(10,10,640,480,"Number Converter Dipesh")
+
+myInputN! = myWindow!.addInputN(250,30,60,90,20)
+
+
+Text1! = myWindow!.addStaticText(700,30,30,100,25,"Enter a Number")
+myButton! = myWindow!.addButton(101,30,110,100,40,"CONVERT",$0800$)
+myWindow!.setCallback(BBjAPI.ON_CLOSE,"byebye")
+myButton!.setCallback(myButton!.ON_BUTTON_PUSH,"pushed1")
+
+rem ----------------------------------------------------------------------------
+
+process_events
+
+pushed1:
+	num1$ = myInputN!.getText()
+	x = num(num1$)
+	gosub convert
+
+return
+
+rem ----------------------------------------------------------------------------
+
+convert:
+
+r = mod(x,10)
+
+if r = 0 then
+	h$ = ""
+endif
+if r = 1 then
+	h$ = "One "
+endif
+if r = 2 then
+	h$ = "Two "
+endif
+if r = 3 then
+	h$ = "Three "
+endif
+if r = 4 then
+	h$ = "Four "
+endif
+if r = 5 then
+	h$ = "Five "
+endif
+if r = 6 then
+	h$ = "Six "
+endif
+if r = 7 then
+	h$ = "Seven "
+endif
+if r = 8 then
+	h$ = "Eight "
+endif
+if r = 9 then
+	h$ = "Nine "
+endif
+
+x = int(x/10)
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+
+if r = 0 then
+	g$ = ""
+endif
+if r = 2 then
+	g$ = "Twenty "
+endif
+if r = 3 then
+	g$ = "Thirty "
+endif
+if r = 4 then
+	g$ = "Forty "
+endif
+if r = 5 then
+	g$ = "Fifty "
+endif
+if r = 6 then
+	g$ = "Sixty "
+endif
+if r = 7 then
+	g$ = "Seventy "
+endif
+if r = 8 then
+	g$ = "Eighty "
+endif
+if r = 9 then
+	g$ = "Ninety "
+endif
+
+x = int(x/10)
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+
+if r = 0 then
+	f$ = ""
+endif
+if r = 1 then
+	f$ = "One Hundred "
+endif
+if r = 2 then
+	f$ = "Two Hundred "
+endif
+if r = 3 then
+	f$ = "Three Hundred "
+endif
+if r = 4 then
+	f$ = "Four Hundred "
+endif
+if r = 5 then
+	f$ = "Five Hundred "
+endif
+if r = 6 then
+	f$ = "Six Hundred "
+endif
+if r = 7 then
+	f$ = "Seven Hundred "
+endif
+if r = 8 then
+	f$ = "Eight Hundred "
+endif
+if r = 9 then
+	f$ = "Nine Hundred "
+endif
+
+x=int(x/10)
+
+j$ = f$ + g$ + h$
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+if r = 0 then
+	e$ = ""
+endif
+if r = 1 then
+	e$ = "One "
+endif
+if r = 2 then
+	e$ = "Two "
+endif
+if r = 3 then
+	e$ = "Three "
+endif
+if r = 4 then
+	e$ = "Four "
+endif
+if r = 5 then
+	e$ = "Five "
+endif
+if r = 6 then
+	e$ = "Six "
+endif
+if r = 7 then
+	e$ = "Seven "
+endif
+if r = 8 then
+	e$ = "Eight "
+endif
+if r = 9 then
+	e$ = "Nine "
+endif
+x = int(x/10)
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+if r = 0 then
+	d$ = ""
+endif
+if r = 2 then
+	d$ = "Twenty "
+endif
+if r = 3 then
+	d$ = "Thirty "
+endif
+if r = 4 then
+	d$ = "Forty "
+endif
+if r = 5 then
+	d$ = "Fifty "
+endif
+if r = 6 then
+	d$ = "Sixty "
+endif
+if r = 7 then
+	d$ = "Seventy "
+endif
+if r = 8 then
+	d$ = "Eighty "
+endif
+if r = 9 then
+	d$ = "Ninety "
+endif
+x = int(x/10)
+m$ = d$ + e$ + "Thousand "
+
+r = mod(x,10)
+if r = 0 then
+	c$ = ""
+endif
+if r = 1 then
+	c$ = "One "
+endif
+if r = 2 then
+	c$ = "Two "
+endif
+if r = 3 then
+	c$ = "Three "
+endif
+if r = 4 then
+	c$ = "Four "
+endif
+if r = 5 then
+	c$ = "Five "
+endif
+if r = 6 then
+	c$ = "Six "
+endif
+if r = 7 then
+	c$ = "Seven "
+endif
+if r = 8 then
+	c$ = "Eight "
+endif
+if r = 9 then
+	c$ = "Nine "
+endif
+x = int(x/10)
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+if r = 0 then
+	b$ = ""
+endif
+if r = 2 then
+	b$ = "Twenty "
+endif
+if r = 3 then
+	b$ = "Thirty "
+endif
+if r = 4 then
+	b$ = "Forty "
+endif
+if r = 5 then
+	b$ = "Fifty "
+endif
+if r = 6 then
+	b$ = "Sixty "
+endif
+if r = 7 then
+	b$ = "Seventy "
+endif
+if r = 8 then
+	b$ = "Eighty "
+endif
+if r = 9 then
+	b$ = "Ninety "
+endif
+x = int(x/10)
+h$ = b$ + c$ + "Lakh "
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+if r = 0 then
+	a$ = ""
+endif
+if r = 1 then
+	a$ = "One "
+endif
+if r = 2 then
+	a$ = "Two "
+endif
+if r = 3 then
+	a$ = "Three "
+endif
+if r = 4 then
+	a$ = "Four "
+endif
+if r = 5 then
+	a$ = "Five "
+endif
+if r = 6 then
+	a$ = "Six "
+endif
+if r = 7 then
+	a$ = "Seven "
+endif
+if r = 8 then
+	a$ = "Eight "
+endif
+if r = 9 then
+	a$ = "Nine "
+endif
+x = int(x/10)
+
+rem ----------------------------------------------------------------------------
+
+r = mod(x,10)
+if r = 0 then
+	i$ = ""
+endif
+if r = 2 then
+	i$ = "Twenty "
+endif
+if r = 3 then
+	i$ = "Thirty "
+endif
+if r = 4 then
+	i$ = "Forty "
+endif
+if r = 5 then
+	i$ = "Fifty "
+endif
+if r = 6 then
+	i$ = "Sixty "
+endif
+if r = 7 then
+	i$ = "Seventy "
+endif
+if r = 8 then
+	i$ = "Eighty "
+endif
+if r = 9 then
+	i$ = "Ninety "
+endif
+
+x = int(x/10)
+o$ = i$ + a$ + "Crore "
+
+rem ----------------------------------------------------------------------------
+rem to display output on output screen
+
+a = msgbox(o$ + h$ + m$ + j$)
+
+byebye:
+release

@@ -1,0 +1,166 @@
+declare BBjAPI api!
+declare BBjSysGui sysgui!
+declare BBjTopLevelWindow wnd!
+declare BBjButton btn!
+
+api! = BBjAPI()
+
+sysgui! = api!.openSysGui("X0")
+
+myWindow! = sysgui!.addWindow(10,10,640,480,"Number Converter Dipesh")
+
+myInputN! = myWindow!.addInputN(250,30,60,90,20)
+
+
+Text1! = myWindow!.addStaticText(700,30,30,100,25,"Enter a Number")
+myButton! = myWindow!.addButton(101,30,110,100,40,"CONVERT",$0800$)
+myWindow!.setCallback(BBjAPI.ON_CLOSE,"byebye")
+myButton!.setCallback(myButton!.ON_BUTTON_PUSH,"pushed1")
+
+process_events
+
+pushed1:
+	num1$ = myInputN!.getText()
+	x = num(num1$)
+	gosub convert
+
+return
+
+convert:
+REM UNIT -----------------------------------------------------------------------
+
+r = MOD(x,10)
+	
+	IF r = 0 THEN
+	 p$ = ""
+	ENDIF
+
+	IF r = 1 THEN
+	 p$ = "ONE"
+	ENDIF
+	
+	IF r = 2 THEN
+	 p$ = "TWO"
+	ENDIF
+	
+	IF r = 3 THEN
+	 p$ = "THREE"
+	ENDIF
+	
+	IF r = 4 THEN
+	 p$ = "FOUR"
+	ENDIF
+	
+	IF r = 5 THEN
+	 p$ = "FIVE"
+	ENDIF
+	
+	IF r = 6 THEN
+	 p$ = "SIX"
+	ENDIF
+	
+	IF r = 7 THEN
+	 p$ = "SEVEN"
+	ENDIF
+	
+	IF r = 8 THEN
+	 p$ = "EIGHT"
+	ENDIF
+	
+	IF r = 9 THEN
+	 p$ = "NINE"
+	ENDIF
+	
+	x = int (x/10)
+	
+REM TENS -----------------------------------------------------------------------
+
+r = MOD(x,10)
+	
+	IF r = 0 THEN
+	 m$ = ""
+	ENDIF
+
+	IF r = 2 THEN
+	 m$ = "TWENTY "
+	ENDIF
+	
+	IF r = 3 THEN
+	 m$ = "THIRTY "
+	ENDIF
+	
+	IF r = 4 THEN
+	 m$ = "FORTY "
+	ENDIF
+	
+	IF r = 5 THEN
+	 m$ = "FIFTY "
+	ENDIF
+	
+	IF r = 6 THEN
+	 m$ = "SIXTY "
+	ENDIF
+	
+	IF r = 7 THEN
+	 m$ = "SEVENTY "
+	ENDIF
+	
+	IF r = 8 THEN
+	 m$ = "EIGHTY "
+	ENDIF
+	
+	IF r = 9 THEN
+	 m$ = "NINETY "
+	ENDIF
+	X = INT(X/10)
+	
+REM HUNDRED --------------------------------------------------------------------	
+
+r = MOD(x,10)
+	
+	IF r = 0 THEN
+	 n$ =  ""
+	ENDIF
+
+	IF r = 1 THEN
+	 n$ = "ONE HUNDRED "
+	ENDIF
+	
+	IF r = 2 THEN
+	 n$ = "TWO HUNDRED "
+	ENDIF
+	
+	IF r = 3 THEN
+	 n$ = "THREE HUNDRED "
+	ENDIF
+	
+	IF r = 4 THEN
+	 n$ = "FOUR HUNDRED "
+	ENDIF
+	
+	IF r = 5 THEN
+	 n$ = "FIVE HUNDRED "
+	ENDIF
+	
+	IF r = 6 THEN
+	 n$ = "SIX HUNDRED "
+	ENDIF
+	
+	IF r = 7 THEN
+	 n$ = "SEVEN HUNDRED "
+	ENDIF
+	
+	IF r = 8 THEN
+	 n$ = "EIGHT HUNDRED "
+	ENDIF
+	
+	IF r = 9 THEN
+	 n$ = "NINE HUNDRED"
+	ENDIF
+
+REM DISPLAY --------------------------------------------------------------------
+
+a= msgbox(n$ + m$ + p$)
+
+byebye:
+release

@@ -1,0 +1,471 @@
+declare BBjAPI api!
+declare BBjSysGui sysgui!
+declare BBjTopLevelWindow wnd!          
+declare BBjGridExWidget grid!
+GOTO DEFAULT
+
+BUILDWINDOW:
+LET myAPI!=BBjAPI()
+ 
+ SYSGUI=UNT
+ OPEN (SYSGUI) "X0"
+ 
+LET mySysGui!=myAPI!.getSysGui()
+
+
+REM Set the current context
+mySysGui!.setContext(1)
+chance = 2
+
+REM Creating a window ----------------------------------------------------------
+
+myWindow! = mySysGui!.addWindow(10,10,640,480,"TicTacToe")
+text1! = myWindow!.addStaticText(719,250,50,100,25,"Player 1: X")
+text2! = myWindow!.addStaticText(720,250,90,100,25,"Player 2: O")
+text3! = myWindow!.addStaticText(200,30,210,80,25,"Player1 Name")
+text4! = myWindow!.addStaticText(400,30,240,80,25,"Player2 Name")
+myEditBox1! = myWindow!.addEditBox(201,100,205,80,25,"",$0008$)
+myEditBox2! = myWindow!.addEditBox(401,100,235,80,25,"",$0008$)
+myButton12!=myWindow!.addStaticText(700,250,20,100,25,"Player1's Turn")
+
+REM Add a button on the window -------------------------------------------------
+
+myButton1! = myWindow!.addButton(101,30,10,50,50,"",$0800$)
+myButton2! = myWindow!.addButton(102,85,10,50,50,"",$0800$)
+myButton3! = myWindow!.addButton(103,140,10,50,50,"",$0800$)
+myButton4! = myWindow!.addButton(104,30,65,50,50,"",$0800$)
+myButton5! = myWindow!.addButton(105,85,65,50,50,"",$0800$)
+myButton6! = myWindow!.addButton(106,140,65,50,50,"",$0800$)
+myButton7! = myWindow!.addButton(107,30,120,50,50,"",$0800$)
+myButton8! = myWindow!.addButton(108,85,120,50,50,"",$0800$)
+myButton9! = myWindow!.addButton(109,140,120,50,50,"",$0800$)
+
+myButton10! = myWindow!.addButton(202,190,205,80,25,"Add",$0800$)
+myButton11! = myWindow!.addButton(402,190,235,80,25,"Add",$0800$)
+
+
+
+RETURN
+
+READRECORDSTYLE:
+
+GOSUB BUILDWINDOW
+
+PROCESSEVENTSSTYLE:
+
+GOSUB BUILDWINDOW
+myWindow!.setTitle("TIC_TAC_TOE_DIPESH")
+myWindow!.setCallback(BBjAPI.ON_CLOSE,"byebye")
+
+REM CALLBACKS ------------------------------------------------------------------
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON1_PUSHED,mySysGui!.getContext(),myButton1!.getID())
+myButton1!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON2_PUSHED,mySysGui!.getContext(),myButton2!.getID())
+myButton2!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON3_PUSHED,mySysGui!.getContext(),myButton3!.getID())
+myButton3!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON4_PUSHED,mySysGui!.getContext(),myButton4!.getID())
+myButton4!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON5_PUSHED,mySysGui!.getContext(),myButton5!.getID())
+myButton5!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON6_PUSHED,mySysGui!.getContext(),myButton6!.getID())
+myButton6!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON7_PUSHED,mySysGui!.getContext(),myButton7!.getID())
+myButton7!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON8_PUSHED,mySysGui!.getContext(),myButton8!.getID())
+myButton8!.setDisableOnClick(1)
+
+CALLBACK(ON_BUTTON_PUSH,MY_BUTTON9_PUSHED,mySysGui!.getContext(),myButton9!.getID())
+myButton9!.setDisableOnClick(1)
+
+CALLBACK(ON_CLOSE,APP_CLOSE,mySysGui!.getContext())
+myButton10!.setCallback(BBjAPI.ON_BUTTON_PUSH,"pushed")
+myButton11!.setCallback(BBjAPI.ON_BUTTON_PUSH,"pulled")
+
+REM ----------------------------------------------------------------------------
+REM Callback routine called when the user closes the application window
+
+PROCESS_EVENTS
+
+APP_CLOSE:
+myWindow!.destroy()
+RELEASE
+RETURN
+
+pushed:
+myButton10!=myWindow!.addStaticText(203,250,50,100,25,STR(myEditBox1!.getText())+" : X")
+RETURN
+
+pulled:
+myButton11!=myWindow!.addStaticText(204,250,90,100,25,STR(myEditBox2!.getText())+" : O")
+RETURN
+
+REM Callback routine called when the button is pressed
+REM BUTTON 1 -------------------------------------------------------------------
+
+MY_BUTTON1_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton1!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton1!=myWindow!.addStaticText(701,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B1$= myButton1!.getText()		
+		IF B1$=B2$ AND B2$=B3$ AND B1$=B3$ THEN
+			text4! = myWindow!.addStaticText(501,250,120,100,25,"Player 1 is Winner")
+		endif	
+		IF B1$=B5$ AND B5$=B9$ AND B1$=B9$ THEN 
+			text5! = myWindow!.addStaticText(502,250,120,100,25,"Player 1 is Winner")	
+		ENDIF
+		IF B1$=B4$ AND B4$=B7$ AND B1$=B7$ THEN
+			text6! = myWindow!.addStaticText(503,250,120,100,25,"Player 1 is Winner")
+		ENDIF
+		FL = 1
+    else
+        myButton1!.setText("O")       
+        chance=chance+1
+       p=1
+       q$=""
+       myButton1!=myWindow!.addStaticText(702,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+       B1$= myButton1!.getText()		
+       IF B1$=B2$ AND B2$=B3$ AND B1$=B3$ THEN
+			text8! = myWindow!.addStaticText(504,250,120,100,25,"Player 2 is Winner")
+		endif	
+		IF B1$=B5$ AND B5$=B9$ AND B1$=B9$ THEN 
+			text9! = myWindow!.addStaticText(505,250,120,100,25,"Player 2 is Winner")	
+		ENDIF
+		IF B1$=B4$ AND B4$=B7$ AND B1$=B7$ THEN
+			text10! = myWindow!.addStaticText(506,250,120,100,25,"Player 2 is Winner")	
+		ENDIF
+		FL = 1
+    fi
+        
+RETURN
+
+REM BUTTON 2 -------------------------------------------------------------------
+
+MY_BUTTON2_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton2!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton2!=myWindow!.addStaticText(703,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B2$= myButton2!.getText()		
+		IF B1$=B2$ AND B2$=B3$ AND B1$=B3$ THEN
+			text11! = myWindow!.addStaticText(507,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B2$=B5$ AND B5$=B8$ AND B2$=B8$ THEN
+			text12! = myWindow!.addStaticText(508,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 1
+	else
+		myButton2!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton2!=myWindow!.addStaticText(704,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B2$= myButton2!.getText()		
+		IF B1$=B2$ AND B2$=B3$ AND B1$=B3$ THEN
+			text13! = myWindow!.addStaticText(510,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B2$=B5$ AND B5$=B8$ AND B2$=B8$ THEN
+			text14! = myWindow!.addStaticText(511,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	fi
+RETURN
+
+REM BUTTON 3 -------------------------------------------------------------------
+
+MY_BUTTON3_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton3!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton3!=myWindow!.addStaticText(705,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B3$=myButton3!.getText()		
+		IF B3$=B2$ AND B2$=B1$ AND B1$=B3$ THEN
+			text15! = myWindow!.addStaticText(512,250,120,100,25,"Player 1 is Winner")
+		endif	
+		IF B3$=B6$ AND B6$=B9$ AND B3$=B9$ THEN 
+			text16! = myWindow!.addStaticText(513,250,120,100,25,"Player 1 is Winner")	
+		ENDIF
+		IF B3$=B5$ AND B5$=B7$ AND B3$=B7$ THEN
+			text17! = myWindow!.addStaticText(514,250,120,100,25,"Player 1 is Winner")
+		ENDIF
+		FL = 1
+	else
+		myButton3!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton3!=myWindow!.addStaticText(706,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B3$=myButton3!.getText()		
+		IF B3$=B2$ AND B2$=B1$ AND B1$=B3$ THEN
+			text18! = myWindow!.addStaticText(515,250,120,100,25,"Player 2 is Winner")
+		endif	
+		IF B3$=B6$ AND B6$=B9$ AND B3$=B9$ THEN 
+			text19! = myWindow!.addStaticText(516,250,120,100,25,"Player 2 is Winner")	
+		ENDIF
+		IF B3$=B5$ AND B5$=B7$ AND B3$=B7$ THEN
+			text20! = myWindow!.addStaticText(517,250,120,100,25,"Player 2 is Winner")
+		ENDIF
+		FL = 0
+	fi
+RETURN
+
+REM BUTTON 4 -------------------------------------------------------------------
+
+MY_BUTTON4_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton4!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton4!=myWindow!.addStaticText(707,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B4$=myButton4!.getText()		
+		IF B4$=B1$ AND B4$=B7$ AND B1$=B7$ THEN
+			text21! = myWindow!.addStaticText(518,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B4$=B5$ AND B5$=B6$ AND B4$=B6$ THEN
+			text22! = myWindow!.addStaticText(519,250,120,100,25,"Player 1 is Winner")
+		endif
+		FL = 1
+	else
+		myButton4!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton4!=myWindow!.addStaticText(708,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B4$=myButton4!.getText()		
+		IF B4$=B1$ AND B4$=B7$ AND B1$=B7$ THEN
+			text21! = myWindow!.addStaticText(520,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B4$=B5$ AND B5$=B6$ AND B4$=B6$ THEN
+			text22! = myWindow!.addStaticText(521,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	fi
+RETURN
+
+REM BUTTON 5 -------------------------------------------------------------------
+
+MY_BUTTON5_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton5!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton5!=myWindow!.addStaticText(709,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B5$=myButton5!.getText()		
+		IF B2$=B5$ AND B5$=B8$ AND B2$=B8$ THEN
+			text25! = myWindow!.addStaticText(522,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B4$=B5$ AND B5$=B6$ AND B4$=B6$ THEN
+			text26! = myWindow!.addStaticText(523,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B1$=B5$ AND B5$=B9$ AND B1$=B9$ THEN
+			text27! = myWindow!.addStaticText(524,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B3$=B5$ AND B5$=B7$ AND B3$=B7$ THEN
+			text28! = myWindow!.addStaticText(525,250,120,100,25,"Player 1 is Winner")
+		endif
+		FL = 1
+	else
+		myButton5!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton5!=myWindow!.addStaticText(710,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B5$=myButton5!.getText()		
+		IF B2$=B5$ AND B5$=B8$ AND B2$=B8$ THEN
+			text29! = myWindow!.addStaticText(526,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B4$=B5$ AND B5$=B6$ AND B4$=B6$ THEN
+			text30! = myWindow!.addStaticText(527,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B1$=B5$ AND B5$=B9$ AND B1$=B9$ THEN
+			text31! = myWindow!.addStaticText(528,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B3$=B5$ AND B5$=B7$ AND B3$=B7$ THEN
+			text32! = myWindow!.addStaticText(529,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	fi
+RETURN
+
+REM BUTTON 6 -------------------------------------------------------------------
+
+MY_BUTTON6_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton6!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton6!=myWindow!.addStaticText(711,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B6$=myButton6!.getText()		
+		IF B3$=B6$ AND B6$=B9$ AND B3$=B9$ THEN
+			text33! = myWindow!.addStaticText(530,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B6$=B5$ AND B5$=B4$ AND B6$=B4$ THEN
+			text34! = myWindow!.addStaticText(531,250,120,100,25,"Player 1 is Winner")
+		endif
+		FL = 1
+	else
+		myButton6!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton6!=myWindow!.addStaticText(712,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B6$=myButton6!.getText()		
+		IF B3$=B6$ AND B6$=B9$ AND B3$=B9$ THEN
+			text35! = myWindow!.addStaticText(532,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B6$=B5$ AND B5$=B4$ AND B6$=B4$ THEN
+			text36! = myWindow!.addStaticText(533,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	fi
+RETURN
+
+REM BUTTON 7 -------------------------------------------------------------------
+
+MY_BUTTON7_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton7!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton7!=myWindow!.addStaticText(713,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B7$=myButton7!.getText()		
+		IF B7$=B4$ AND B4$=B1$ AND B1$=B7$ THEN
+			text33! = myWindow!.addStaticText(534,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B7$=B5$ AND B5$=B3$ AND B7$=B3$ THEN
+			text34! = myWindow!.addStaticText(535,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B7$=B8$ AND B8$=B9$ AND B7$=B9$ THEN
+			text35! = myWindow!.addStaticText(536,250,120,100,25,"Player 1 is Winner")
+		endif
+		FL = 1
+	else
+		myButton7!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton7!=myWindow!.addStaticText(714,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B7$=myButton7!.getText()		
+		IF B7$=B4$ AND B4$=B1$ AND B1$=B7$ THEN
+			text36! = myWindow!.addStaticText(537,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B7$=B5$ AND B5$=B3$ AND B7$=B3$ THEN
+			text37! = myWindow!.addStaticText(538,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B7$=B8$ AND B8$=B9$ AND B7$=B9$ THEN
+			text38! = myWindow!.addStaticText(539,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	Fi
+RETURN
+
+REM BUTTON 8 -------------------------------------------------------------------
+
+MY_BUTTON8_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton8!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton8!=myWindow!.addStaticText(715,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B8$=myButton8!.getText()		
+		IF B7$=B8$ AND B8$=B9$ AND B9$=B7$ THEN
+			text39! = myWindow!.addStaticText(540,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B8$=B5$ AND B5$=B2$ AND B8$=B2$ THEN
+			text40! = myWindow!.addStaticText(541,250,120,100,25,"Player 1 is Winner")
+		endif
+		FL = 1
+	else
+		myButton8!.setText("O")		
+		chance=chance+1
+		p=1
+		q$=""
+		myButton8!=myWindow!.addStaticText(716,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B8$=myButton8!.getText()		
+		IF B7$=B8$ AND B8$=B9$ AND B9$=B7$ THEN
+			text41! = myWindow!.addStaticText(542,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B8$=B5$ AND B5$=B2$ AND B8$=B2$ THEN
+			text42! = myWindow!.addStaticText(543,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	fi
+RETURN
+
+REM BUTTON 9 -------------------------------------------------------------------
+
+MY_BUTTON9_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		myButton9!.setText("X")		
+		chance=chance+1
+		p=2
+		q$=""
+		myButton9!=myWindow!.addStaticText(717,250,20,100,25,STR(myEditBox2!.getText())+str(q$)+" Turn")
+		B9$=myButton9!.getText()		
+		IF B9$=B6$ AND B6$=B3$ AND B9$=B3$ THEN
+		text43! = myWindow!.addStaticText(544,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B9$=B8$ AND B8$=B7$ AND B9$=B7$ THEN
+		text44! = myWindow!.addStaticText(545,250,120,100,25,"Player 1 is Winner")
+		endif
+		IF B9$=B5$ AND B5$=B1$ AND B1$=B9$ THEN
+		text47! = myWindow!.addStaticText(548,250,120,100,25,"Player 1 is Winner")
+		endif
+		FL = 1
+	else
+		myButton9!.setText("O")
+		chance=chance+1
+		p=1
+		q$=""
+		myButton9!=myWindow!.addStaticText(718,250,20,100,25,STR(myEditBox1!.getText())+str(q$)+" Turn")
+		B9$=myButton9!.getText()
+		IF B9$=B6$ AND B6$=B3$ AND B9$=B3$ THEN
+			text45! = myWindow!.addStaticText(546,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B9$=B8$ AND B8$=B7$ AND B9$=B7$ THEN
+			text46! = myWindow!.addStaticText(547,250,120,100,25,"Player 2 is Winner")
+		endif
+		IF B9$=B5$ AND B5$=B1$ AND B1$=B9$ THEN
+			text47! = myWindow!.addStaticText(549,250,120,100,25,"Player 2 is Winner")
+		endif
+		FL = 0
+	fi
+RETURN
+
+REM ----------------------------------------------------------------------------
+
+DEFAULT:
+
+	GOTO PROCESSEVENTSSTYLE
+
+byebye:
+ release

@@ -1,0 +1,85 @@
+declare BBjAPI api!
+declare BBjSysGui sysgui!
+declare BBjTopLevelWindow wnd!
+declare BBjButton btn!
+
+api! = BBjAPI()
+
+sysgui! = api!.openSysGui("X0")
+
+myWindow! = sysgui!.addWindow(10,10,640,480,"Number Converter Dipesh")
+
+myInputN! = myWindow!.addInputN(250,30,60,90,20)
+
+
+Text1! = myWindow!.addStaticText(700,30,30,100,25,"Enter a Number")
+myButton! = myWindow!.addButton(101,30,110,100,40,"CONVERT",$0800$)
+myWindow!.setCallback(BBjAPI.ON_CLOSE,"byebye")
+myButton!.setCallback(myButton!.ON_BUTTON_PUSH,"pushed1")
+
+process_events
+
+pushed1:
+	num1$ = myInputN!.getText()
+	x = num(num1$)
+	gosub convert
+
+return
+
+convert:
+	while x>0
+		r = MOD(x,10)
+		a = int(a*10 + r)
+		x = int(x/10)
+	wend
+
+	while a>0
+
+		r = MOD(a,10)
+
+		IF r = 0 THEN
+			b$ =   b$ + "ZERO "
+		ENDIF
+
+		IF r = 1 THEN
+			b$ =   b$ + "ONE "
+		ENDIF
+
+		IF r = 2 THEN
+			b$ =   b$ + "TWO "
+		ENDIF
+
+		IF r = 3 THEN
+			b$ =   b$ + "THREE "
+		ENDIF
+
+		IF r = 4 THEN
+			b$ =   b$ + "FOUR "
+		ENDIF
+
+		IF r = 5 THEN
+			b$ =   b$ + "FIVE "
+		ENDIF
+
+		IF r = 6 THEN
+			b$ =   b$ + "SIX "
+		ENDIF
+
+		IF r = 7 THEN
+			b$ =   b$ + "SEVEN "
+		ENDIF
+
+		IF r = 8 THEN
+			b$ =   b$ + "EIGHT "
+		ENDIF
+
+		IF r = 9 THEN
+			b$ =   b$ + "NINE "
+		ENDIF
+
+		a = int (a/10)
+	wend
+d = msgbox (b$)
+
+byebye:
+release
